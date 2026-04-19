@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ivan Patel | Real Estate Agent</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #0a0a0a;
+    --charcoal: #141414;
+    --card: #1a1a1a;
+    --border: #2a2a2a;
+    --gold: #c9a84c;
+    --gold-light: #e8c97a;
+    --white: #f5f2ec;
+    --muted: #888;
+    --text: #e8e4dc;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.25rem 3rem;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--gold);
+    letter-spacing: 0.04em;
+    cursor: pointer;
+  }
+  .nav-links {
+    display: flex; gap: 2rem; list-style: none;
+  }
+  .nav-links a {
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 0.85rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+
+  /* PAGES */
+  .page { display: none; min-height: 100vh; padding-top: 72px; }
+  .page.active { display: block; }
+
+  /* ── HOME ── */
+  #home {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding-top: 72px;
+  }
+  #home.active { display: flex; }
+
+  .home-hero {
+    text-align: center;
+    padding: 5rem 2rem 3rem;
+    max-width: 700px;
+  }
+  .home-hero .eyebrow {
+    font-size: 0.75rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.25rem;
+  }
+  .home-hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--white);
+    margin-bottom: 1.25rem;
+  }
+  .home-hero h1 em {
+    font-style: italic;
+    color: var(--gold);
+  }
+  .home-hero p {
+    font-size: 1rem;
+    color: var(--muted);
+    line-height: 1.7;
+    max-width: 480px;
+    margin: 0 auto 3rem;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5px;
+    width: 100%;
+    max-width: 1100px;
+    border: 1.5px solid var(--border);
+    margin: 0 auto;
+  }
+
+  .home-card {
+    background: var(--card);
+    padding: 3rem 2.5rem;
+    cursor: pointer;
+    transition: background 0.25s;
+    position: relative;
+    overflow: hidden;
+    border: none;
+    text-align: left;
+  }
+  .home-card::before {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+    transform-origin: left;
+  }
+  .home-card:hover { background: #1f1f1f; }
+  .home-card:hover::before { transform: scaleX(1); }
+
+  .card-number {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    margin-bottom: 2rem;
+    text-transform: uppercase;
+  }
+  .home-card h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 400;
+    color: var(--white);
+    line-height: 1.2;
+    margin-bottom: 1rem;
+  }
+  .home-card p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+  .card-arrow {
+    position: absolute;
+    bottom: 2rem; right: 2rem;
+    font-size: 1.2rem;
+    color: var(--gold);
+    opacity: 0;
+    transition: opacity 0.25s, transform 0.25s;
+  }
+  .home-card:hover .card-arrow { opacity: 1; transform: translate(4px, -4px); }
+
+  /* ── INNER PAGES ── */
+  .inner-header {
+    padding: 4rem 3rem 3rem;
+    max-width: 900px;
+    margin: 0 auto;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .inner-header .eyebrow {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1rem;
+  }
+  .inner-header h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.5rem);
+    font-weight: 400;
+    color: var(--white);
+    line-height: 1.15;
+    margin-bottom: 1rem;
+  }
+  .inner-header p {
+    color: var(--muted);
+    font-size: 1rem;
+    line-height: 1.7;
+    max-width: 560px;
+  }
+  .inner-body {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem;
+  }
+
+  /* BACK BUTTON */
+  .back-btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    font-size: 0.8rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+    cursor: pointer;
+    margin-bottom: 2rem;
+    transition: color 0.2s;
+    background: none; border: none;
+  }
+  .back-btn:hover { color: var(--gold); }
+
+  /* FORM */
+  .form-section {
+    background: var(--card);
+    border: 0.5px solid var(--border);
+    padding: 2.5rem;
+    margin-bottom: 2rem;
+  }
+  .form-section h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.3rem;
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+  .form-section .sub {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 2rem;
+    line-height: 1.5;
+  }
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+  .form-group {
+    display: flex; flex-direction: column; gap: 0.4rem;
+    margin-bottom: 1rem;
+  }
+  .form-group label {
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    background: var(--black);
+    border: 0.5px solid var(--border);
+    color: var(--text);
+    padding: 0.85rem 1rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 300;
+    outline: none;
+    transition: border-color 0.2s;
+    width: 100%;
+    -webkit-appearance: none;
+  }
+  .form-group select option { background: var(--black); }
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus { border-color: var(--gold); }
+  .form-group textarea { resize: vertical; min-height: 100px; }
+
+  .btn-gold {
+    background: var(--gold);
+    color: var(--black);
+    border: none;
+    padding: 1rem 2.5rem;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+  }
+  .btn-gold:hover { background: var(--gold-light); }
+
+  /* INFO BLOCKS */
+  .info-block {
+    border-left: 2px solid var(--gold);
+    padding: 1.5rem 2rem;
+    margin-bottom: 1.5rem;
+    background: var(--card);
+  }
+  .info-block h4 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 400;
+    color: var(--white);
+    margin-bottom: 0.5rem;
+  }
+  .info-block p {
+    font-size: 0.9rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* TWO-COL */
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  /* SECTION LABEL */
+  .section-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 1.5rem;
+  }
+
+  /* STEPS */
+  .steps { margin-bottom: 2rem; }
+  .step {
+    display: flex; gap: 1.5rem;
+    padding: 1.5rem 0;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--gold);
+    opacity: 0.4;
+    line-height: 1;
+    min-width: 2.5rem;
+  }
+  .step-content h4 {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--white);
+    margin-bottom: 0.4rem;
+  }
+  .step-content p {
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.6;
+  }
+
+  /* FAQ */
+  .faq-item {
+    border-bottom: 0.5px solid var(--border);
+    padding: 1.5rem 0;
+  }
+  .faq-q {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--white);
+    margin-bottom: 0.6rem;
+    cursor: pointer;
+  }
+  .faq-a {
+    font-size: 0.875rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* CONTACT STRIP */
+  .contact-strip {
+    background: var(--card);
+    border: 0.5px solid var(--border);
+    padding: 2rem 2.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 3rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .contact-strip .name-block .name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    color: var(--white);
+  }
+  .contact-strip .name-block .title {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 0.2rem;
+    letter-spacing: 0.08em;
+  }
+  .contact-strip .details {
+    display: flex; gap: 2rem; flex-wrap: wrap;
+  }
+  .contact-strip .detail-item {
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+  .contact-strip .detail-item span {
+    display: block;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.2rem;
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 2rem;
+    border-top: 0.5px solid var(--border);
+    font-size: 0.75rem;
+    color: #444;
+    margin-top: 4rem;
+  }
+
+  /* HIGHLIGHT */
+  .highlight { color: var(--gold); }
+
+  /* SUCCESS MSG */
+  .success-msg {
+    display: none;
+    background: #0f2a1a;
+    border: 0.5px solid #1a4a2e;
+    color: #5dba84;
+    padding: 1rem 1.5rem;
+    font-size: 0.9rem;
+    margin-top: 1rem;
+  }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.25rem; }
+    .nav-links { display: none; }
+    .cards-grid { grid-template-columns: 1fr; gap: 1px; }
+    .inner-header, .inner-body { padding: 2rem 1.25rem; }
+    .two-col, .form-row { grid-template-columns: 1fr; }
+    .contact-strip { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo" onclick="showPage('home')">Ivan Patel</div>
+  <ul class="nav-links">
+    <li><a href="#" onclick="showPage('home');return false;">Home</a></li>
+    <li><a href="#" onclick="showPage('sellers');return false;">Sell</a></li>
+    <li><a href="#" onclick="showPage('buyers');return false;">Buy</a></li>
+    <li><a href="#" onclick="showPage('moving');return false;">Moving</a></li>
+    <li><a href="#" onclick="showPage('firsttime');return false;">First-Time Buyers</a></li>
+  </ul>
+</nav>
+
+<!-- ═══════════════ HOME ═══════════════ -->
+<div id="home" class="page active">
+  <div class="home-hero">
+    <p class="eyebrow">Real Estate · Southern California</p>
+    <h1>Your home.<br><em>Your move.</em></h1>
+    <p>Whether you're selling, buying, or relocating, I'll handle the details so you don't have to — and yes, I'm available on weekends (unlike my golf game).</p>
+  </div>
+
+  <div class="cards-grid">
+    <div class="home-card" onclick="showPage('sellers')">
+      <p class="card-number">01</p>
+      <h2>Check Your Home's Value</h2>
+      <p>Find out what your home is worth in today's market. No obligation — just real numbers.</p>
+      <span class="card-arrow">↗</span>
+    </div>
+    <div class="home-card" onclick="showPage('buyers')">
+      <p class="card-number">02</p>
+      <h2>Looking to Buy?</h2>
+      <p>Browse available homes and discover why having the right agent makes all the difference.</p>
+      <span class="card-arrow">↗</span>
+    </div>
+    <div class="home-card" onclick="showPage('moving')">
+      <p class="card-number">03</p>
+      <h2>Moving?</h2>
+      <p>Relocating to or from Southern California? Our referral network has you covered anywhere.</p>
+      <span class="card-arrow">↗</span>
+    </div>
+  </div>
+
+  <div class="contact-strip" style="max-width:1100px; margin: 0 auto; margin-top: 0; border-top: none;">
+    <div class="name-block">
+      <p class="name">Ivan Patel</p>
+      <p class="title">Real Estate Agent · DRE #02404499</p>
+    </div>
+    <div class="details">
+      <div class="detail-item"><span>Phone</span>714.989.9859</div>
+      <div class="detail-item"><span>Email</span>patelivan0415@gmail.com</div>
+      <div class="detail-item"><span>License</span>CA DRE #02404499</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ SELLERS ═══════════════ -->
+<div id="sellers" class="page">
+  <div class="inner-header">
+    <button class="back-btn" onclick="showPage('home')">← Back</button>
+    <p class="eyebrow">For Sellers</p>
+    <h1>What is your<br><em>home worth?</em></h1>
+    <p>Enter your address below and I'll prepare a personalized Comparative Market Analysis — a real, local assessment, not just an algorithm's guess.</p>
+  </div>
+  <div class="inner-body">
+    <div class="form-section">
+      <h3>Request Your Free Home Valuation</h3>
+      <p class="sub">Takes 30 seconds. I'll follow up within 24 hours with a detailed CMA tailored to your neighborhood — and no sales pressure, ever.</p>
+      <form id="valuation-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" onsubmit="handleFormSubmit(event, 'valuation-success')">
+        <div class="form-group">
+          <label>Property Address</label>
+          <input type="text" name="address" placeholder="123 Main St, Anaheim, CA 92801" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" name="name" placeholder="Jane Smith" required>
+          </div>
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" name="phone" placeholder="(714) 555-0000">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email Address</label>
+          <input type="email" name="email" placeholder="jane@email.com" required>
+        </div>
+        <div class="form-group">
+          <label>Anything else I should know?</label>
+          <textarea name="notes" placeholder="Recent renovations, timeline for selling, etc."></textarea>
+        </div>
+        <button type="submit" class="btn-gold">Request My Valuation</button>
+        <div class="success-msg" id="valuation-success">✓ Got it! I'll be in touch within 24 hours with your personalized report.</div>
+      </form>
+    </div>
+
+    <p class="section-label">Why a CMA beats Zestimate</p>
+    <div class="two-col">
+      <div class="info-block">
+        <h4>Hyperlocal Insight</h4>
+        <p>Online estimates don't know about the new kitchen you put in, the school district boundary change, or what homes on your exact street are actually selling for.</p>
+      </div>
+      <div class="info-block">
+        <h4>Real Comps</h4>
+        <p>I pull actual recent sales from the MLS — the same data buyers' agents are using — so you price confidently, not hopefully.</p>
+      </div>
+      <div class="info-block">
+        <h4>No Obligation</h4>
+        <p>A valuation is a conversation starter, not a commitment. You'll walk away knowing your number regardless of what you decide to do.</p>
+      </div>
+      <div class="info-block">
+        <h4>Strategic Pricing</h4>
+        <p>There's a big difference between listing high and selling high. I'll show you exactly where to price to attract serious buyers fast.</p>
+      </div>
+    </div>
+
+    <div class="contact-strip">
+      <div class="name-block">
+        <p class="name">Ivan Patel</p>
+        <p class="title">Real Estate Agent · DRE #02404499</p>
+      </div>
+      <div class="details">
+        <div class="detail-item"><span>Phone</span>714.989.9859</div>
+        <div class="detail-item"><span>Email</span>patelivan0415@gmail.com</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ BUYERS ═══════════════ -->
+<div id="buyers" class="page">
+  <div class="inner-header">
+    <button class="back-btn" onclick="showPage('home')">← Back</button>
+    <p class="eyebrow">For Buyers</p>
+    <h1>Find your<br><em>next home.</em></h1>
+    <p>Buying a home is one of the biggest decisions you'll make. Having the right agent in your corner — at no cost to you — makes the entire process smoother, faster, and a lot less stressful.</p>
+  </div>
+  <div class="inner-body">
+
+    <div class="info-block" style="margin-bottom:2rem; border-left-color: var(--gold);">
+      <h4>The buyer's agent is free to you</h4>
+      <p>In California, the seller pays the agent commissions — which means you get expert representation, negotiation, access to off-market listings, and full transaction support at zero cost. There's no reason not to have an agent in your corner.</p>
+    </div>
+
+    <p class="section-label">What I do for buyers</p>
+    <div class="steps">
+      <div class="step">
+        <span class="step-num">01</span>
+        <div class="step-content">
+          <h4>Understand your goals</h4>
+          <p>Before we look at a single house, we talk. What matters most — neighborhood, schools, commute, layout? I build a search around your life, not a generic checklist.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">02</span>
+        <div class="step-content">
+          <h4>Connect you with lenders</h4>
+          <p>I work with trusted local lenders who move fast. Getting pre-approved before you shop means you can make a competitive offer the moment the right home appears.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">03</span>
+        <div class="step-content">
+          <h4>Access the full MLS</h4>
+          <p>You see what I see — every active listing, including ones that haven't hit Zillow yet. I'll set up real-time alerts so you're never a step behind.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">04</span>
+        <div class="step-content">
+          <h4>Negotiate and protect you</h4>
+          <p>Writing an offer is the easy part. I'll guide you on pricing, contingencies, inspection strategy, and everything that goes into actually winning — and protecting yourself.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">05</span>
+        <div class="step-content">
+          <h4>Close without the chaos</h4>
+          <p>Escrow, title, inspections, appraisals — I coordinate it all and keep you informed every step of the way so nothing falls through the cracks.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-section">
+      <h3>Let's Start Your Search</h3>
+      <p class="sub">Tell me a little about what you're looking for and I'll reach out to schedule a free, no-pressure consultation.</p>
+      <form id="buyer-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" onsubmit="handleFormSubmit(event, 'buyer-success')">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" name="name" placeholder="John Smith" required>
+          </div>
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" name="phone" placeholder="(714) 555-0000">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" name="email" placeholder="john@email.com" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Target Zip Code(s)</label>
+            <input type="text" name="zip" placeholder="92801, 90210...">
+          </div>
+          <div class="form-group">
+            <label>Budget Range</label>
+            <select name="budget">
+              <option value="">Select range</option>
+              <option>Under $500K</option>
+              <option>$500K – $750K</option>
+              <option>$750K – $1M</option>
+              <option>$1M – $1.5M</option>
+              <option>$1.5M+</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Anything specific you're looking for?</label>
+          <textarea name="notes" placeholder="Bedrooms, neighborhood, school district, timeline, etc."></textarea>
+        </div>
+        <button type="submit" class="btn-gold">Start My Search</button>
+        <div class="success-msg" id="buyer-success">✓ Perfect! I'll be in touch shortly to set up your consultation.</div>
+      </form>
+    </div>
+
+    <p style="text-align:center; font-size:0.85rem; color:var(--muted); margin: 1rem 0;">
+      Prefer to browse listings first? <a href="https://www.homesmart.com/find-a-home/" target="_blank" style="color:var(--gold); text-decoration:none;">Search the HomeSmart MLS →</a>
+    </p>
+
+    <div class="contact-strip">
+      <div class="name-block">
+        <p class="name">Ivan Patel</p>
+        <p class="title">Real Estate Agent · DRE #02404499</p>
+      </div>
+      <div class="details">
+        <div class="detail-item"><span>Phone</span>714.989.9859</div>
+        <div class="detail-item"><span>Email</span>patelivan0415@gmail.com</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ MOVING ═══════════════ -->
+<div id="moving" class="page">
+  <div class="inner-header">
+    <button class="back-btn" onclick="showPage('home')">← Back</button>
+    <p class="eyebrow">Relocation & Referrals</p>
+    <h1>Moving somewhere<br><em>new?</em></h1>
+    <p>Whether you're headed across the state or across the country, I'll connect you with a trusted local agent wherever you're going — and handle everything on the California side.</p>
+  </div>
+  <div class="inner-body">
+
+    <p class="section-label">How the Referral Process Works</p>
+    <div class="steps">
+      <div class="step">
+        <span class="step-num">01</span>
+        <div class="step-content">
+          <h4>Tell me where you're going</h4>
+          <p>Share your destination, timeline, and what you're looking for in a new home or agent.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">02</span>
+        <div class="step-content">
+          <h4>I find you the right agent</h4>
+          <p>Through my HomeSmart network and trusted connections, I identify a local expert in your destination market — vetted, responsive, and right for your situation.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">03</span>
+        <div class="step-content">
+          <h4>I make the introduction</h4>
+          <p>You get a warm handoff — not a cold call from a stranger. The referring agent knows your story before they ever speak with you.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">04</span>
+        <div class="step-content">
+          <h4>We coordinate your full move</h4>
+          <p>If you're selling here and buying there, I handle the California side end-to-end while keeping both timelines aligned.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="section-label">Frequently Asked Questions</p>
+    <div class="faq-item">
+      <p class="faq-q">Does the referral cost me anything?</p>
+      <p class="faq-a">No. The referral fee is paid between agents from the commission — you never pay extra for the connection.</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">What if I'm moving to a state where you don't have contacts?</p>
+      <p class="faq-a">Through HomeSmart's national network and platforms I work with, I can source agents in all 50 states. If I don't have a personal connection, I'll do the legwork to find someone who's the right fit for you.</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">How far in advance should I reach out?</p>
+      <p class="faq-a">The earlier the better — ideally 3 to 6 months before your move. That said, I've helped clients coordinate last-minute relocations too. Reach out whenever you are.</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">Can you help with rentals too?</p>
+      <p class="faq-a">Yes, I can connect you with agents who specialize in rental placement in your destination market, particularly useful for buyers who need a temporary landing spot.</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">What areas of California do you cover?</p>
+      <p class="faq-a">I'm licensed throughout California and focus primarily on Orange County, Los Angeles County, and the surrounding Inland Empire area.</p>
+    </div>
+
+    <div class="form-section" style="margin-top:2.5rem;">
+      <h3>Tell Me About Your Move</h3>
+      <p class="sub">Fill this out and I'll reach out within one business day to discuss your options.</p>
+      <form id="moving-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" onsubmit="handleFormSubmit(event, 'moving-success')">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" name="name" placeholder="Alex Johnson" required>
+          </div>
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" name="phone" placeholder="(714) 555-0000">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" name="email" placeholder="alex@email.com" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Moving From</label>
+            <input type="text" name="from" placeholder="Orange County, CA">
+          </div>
+          <div class="form-group">
+            <label>Moving To</label>
+            <input type="text" name="to" placeholder="Austin, TX">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Tell me more about your situation</label>
+          <textarea name="notes" placeholder="Timeline, are you selling, buying, renting, any questions..."></textarea>
+        </div>
+        <button type="submit" class="btn-gold">Let's Talk</button>
+        <div class="success-msg" id="moving-success">✓ Got it! I'll be in touch soon to help coordinate your move.</div>
+      </form>
+    </div>
+
+    <div class="contact-strip">
+      <div class="name-block">
+        <p class="name">Ivan Patel</p>
+        <p class="title">Real Estate Agent · DRE #02404499</p>
+      </div>
+      <div class="details">
+        <div class="detail-item"><span>Phone</span>714.989.9859</div>
+        <div class="detail-item"><span>Email</span>patelivan0415@gmail.com</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ FIRST TIME BUYERS ═══════════════ -->
+<div id="firsttime" class="page">
+  <div class="inner-header">
+    <button class="back-btn" onclick="showPage('home')">← Back</button>
+    <p class="eyebrow">First-Time Buyers</p>
+    <h1>Everything you need<br><em>to know.</em></h1>
+    <p>Buying your first home is exciting, overwhelming, and one of the best decisions you'll ever make. Here's a plain-English guide to how it all works.</p>
+  </div>
+  <div class="inner-body">
+
+    <p class="section-label">The Buying Process</p>
+    <div class="steps">
+      <div class="step">
+        <span class="step-num">01</span>
+        <div class="step-content">
+          <h4>Get pre-approved</h4>
+          <p>Before anything else, talk to a lender. Pre-approval tells you exactly what you can afford and makes your offer credible to sellers. In a competitive market, not having one is a dealbreaker.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">02</span>
+        <div class="step-content">
+          <h4>Define your priorities</h4>
+          <p>Location, size, commute, schools, style — make your list. Then split it into must-haves and nice-to-haves. You'll rarely find a home that checks every box, so knowing your hierarchy saves time and stress.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">03</span>
+        <div class="step-content">
+          <h4>Tour homes</h4>
+          <p>We schedule showings together. I'll point out things you might miss — layout efficiency, neighborhood context, red flags — so you're evaluating with full information.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">04</span>
+        <div class="step-content">
+          <h4>Make an offer</h4>
+          <p>I'll pull comps and advise on offer price, contingencies, earnest money, and terms. In Southern California's market, how you write an offer matters as much as the number.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">05</span>
+        <div class="step-content">
+          <h4>Open escrow</h4>
+          <p>Once your offer is accepted, escrow opens — typically 30 days. This is when the inspection, appraisal, and final loan approval happen. I'll keep you on track every step of the way.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="step-num">06</span>
+        <div class="step-content">
+          <h4>Close and get your keys</h4>
+          <p>You'll sign a stack of documents, funds are wired, and then — keys. That's it. You're a homeowner.</p>
+        </div>
+      </div>
+    </div>
+
+    <p class="section-label" style="margin-top:2.5rem;">Lending Basics</p>
+    <div class="two-col">
+      <div class="info-block">
+        <h4>Conventional Loans</h4>
+        <p>Standard mortgages not backed by the government. Typically require 5–20% down and a credit score of 620+. Best for buyers with solid credit and stable income.</p>
+      </div>
+      <div class="info-block">
+        <h4>FHA Loans</h4>
+        <p>Backed by the Federal Housing Administration. Allows down payments as low as 3.5% and accepts lower credit scores. A popular first-time buyer option — but requires mortgage insurance.</p>
+      </div>
+      <div class="info-block">
+        <h4>VA Loans</h4>
+        <p>For eligible veterans, active military, and surviving spouses. Zero down payment, no PMI, and competitive rates. One of the best loan products available if you qualify.</p>
+      </div>
+      <div class="info-block">
+        <h4>CalHFA & Down Payment Assistance</h4>
+        <p>California offers several programs to help first-time buyers with down payments and closing costs. Income limits apply. I can connect you with a lender who specializes in these programs.</p>
+      </div>
+    </div>
+
+    <p class="section-label" style="margin-top:2rem;">Common First-Time Buyer Questions</p>
+    <div class="faq-item">
+      <p class="faq-q">How much do I actually need saved?</p>
+      <p class="faq-a">Besides your down payment (3.5%–20% depending on loan type), budget for closing costs (typically 2–3% of the purchase price), a home inspection (~$400–600), and moving costs. Having a small reserve after closing is also wise.</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">What credit score do I need?</p>
+      <p class="faq-a">FHA loans go as low as 580. Conventional loans typically require 620+. The higher your score, the better your interest rate — even a half-point difference in rate can mean tens of thousands over the life of a loan.</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">How long does the whole process take?</p>
+      <p class="faq-a">From starting your search to getting keys, most buyers take 2–4 months. Escrow itself is usually 30 days once an offer is accepted. The more prepared you are upfront, the faster it goes.</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">Should I buy now or wait for prices to drop?</p>
+      <p class="faq-a">It depends on your situation — not the market. The best time to buy is when you're financially ready and planning to stay for at least 3–5 years. Trying to time the market is a gamble that rarely pays off.</p>
+    </div>
+
+    <div class="form-section" style="margin-top:2.5rem;">
+      <h3>Ready to Take the First Step?</h3>
+      <p class="sub">Reach out for a free, no-pressure consultation. We'll talk through where you are, what you're looking for, and what the path forward looks like.</p>
+      <form id="firsttime-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST" onsubmit="handleFormSubmit(event, 'firsttime-success')">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" name="name" placeholder="Sam Lee" required>
+          </div>
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" name="phone" placeholder="(714) 555-0000">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" name="email" placeholder="sam@email.com" required>
+        </div>
+        <div class="form-group">
+          <label>What's your biggest question or concern right now?</label>
+          <textarea name="notes" placeholder="Tell me where you're at and what's on your mind..."></textarea>
+        </div>
+        <button type="submit" class="btn-gold">Let's Talk</button>
+        <div class="success-msg" id="firsttime-success">✓ I'll be in touch soon. Looking forward to helping you get there.</div>
+      </form>
+    </div>
+
+    <div class="contact-strip">
+      <div class="name-block">
+        <p class="name">Ivan Patel</p>
+        <p class="title">Real Estate Agent · DRE #02404499</p>
+      </div>
+      <div class="details">
+        <div class="detail-item"><span>Phone</span>714.989.9859</div>
+        <div class="detail-item"><span>Email</span>patelivan0415@gmail.com</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  © 2025 Ivan Patel · CA DRE #02404499 · All rights reserved
+</footer>
+
+<script>
+function showPage(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  const target = document.getElementById(id);
+  if (target) {
+    target.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+}
+
+function handleFormSubmit(e, successId) {
+  e.preventDefault();
+  const form = e.target;
+  const successEl = document.getElementById(successId);
+
+  fetch(form.action, {
+    method: 'POST',
+    body: new FormData(form),
+    headers: { 'Accept': 'application/json' }
+  }).then(res => {
+    if (res.ok) {
+      form.reset();
+      successEl.style.display = 'block';
+    }
+  }).catch(() => {
+    successEl.textContent = '✓ Submitted! I\'ll be in touch soon.';
+    successEl.style.display = 'block';
+  });
+}
+</script>
+
+</body>
+</html>
