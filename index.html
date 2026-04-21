@@ -19,6 +19,7 @@
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { visibility: hidden; }
 
   body {
     background: var(--black);
@@ -477,6 +478,19 @@
   }
 </style>
 </head>
+<script>
+  (function() {
+    var hash = window.location.hash.replace('#', '');
+    var valid = ['home','sellers','buyers','moving'];
+    var target = valid.includes(hash) ? hash : 'home';
+    document.addEventListener('DOMContentLoaded', function() {
+      document.querySelectorAll('.page').forEach(function(p) { p.classList.remove('active'); });
+      var el = document.getElementById(target);
+      if (el) el.classList.add('active');
+      document.body.style.visibility = 'visible';
+    });
+  })();
+</script>
 <body>
 
 <nav>
@@ -624,6 +638,17 @@
   </div>
   <div class="inner-body">
 
+    <a href="https://www.homesmart.com/find-a-home/" target="_blank" style="display:block; text-decoration:none; margin-bottom:2.5rem;">
+      <div style="position:relative; overflow:hidden; border:0.5px solid #2a2a2a; background:var(--card); padding:2.5rem; cursor:pointer;" onmouseover="this.querySelector('.hs-arrow').style.transform='translate(4px,-4px)'; this.style.background='#1f1f1f'" onmouseout="this.querySelector('.hs-arrow').style.transform='translate(0,0)'; this.style.background='var(--card)'">
+        <p style="font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:400; color:var(--white); line-height:1.2; margin-bottom:0.5rem;">Browse Our Available<br><em style="font-style:italic; color:var(--gold);">Listings Now</em></p>
+        <p style="font-size:0.85rem; color:var(--muted); margin-bottom:1.5rem;">Search homes across Southern California — updated daily from the HomeSmart.</p>
+        <div style="display:inline-flex; align-items:center; gap:0.5rem;">
+          <span style="font-size:0.8rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold);">Search Listings</span>
+          <span class="hs-arrow" style="font-size:1rem; color:var(--gold); transition:transform 0.25s;">↗</span>
+        </div>
+      </div>
+    </a>
+
     <p class="section-label">What I do for buyers</p>
     <div class="steps">
       <div class="step">
@@ -707,9 +732,16 @@
       </form>
     </div>
 
-    <p style="text-align:center; font-size:0.85rem; color:var(--muted); margin: 1rem 0;">
-      Prefer to browse listings first? <a href="https://www.homesmart.com/find-a-home/" target="_blank" style="color:var(--gold); text-decoration:none;">Search the HomeSmart MLS →</a>
-    </p>
+    <a href="https://homesmart.com/" target="_blank" style="display:block; text-decoration:none; margin: 2rem 0;">
+      <div style="background:var(--card); border:0.5px solid var(--border); padding:2rem 2.5rem; display:flex; justify-content:space-between; align-items:center; transition:background 0.2s; cursor:pointer;" onmouseover="this.style.background='#1f1f1f'" onmouseout="this.style.background='var(--card)'">
+        <div>
+          <p style="font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-bottom:0.5rem;">Our Listings</p>
+          <p style="font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:400; color:var(--white); margin-bottom:0.4rem;">Prefer to browse listings first?</p>
+          <p style="font-size:0.85rem; color:var(--muted);">Search all available homes on HomeSmart</p>
+        </div>
+        <span style="font-size:1.5rem; color:var(--gold); margin-left:2rem;">↗</span>
+      </div>
+    </a>
 
     <p class="section-label" style="margin-top:2.5rem;">Buyer Resources</p>
     <div class="faq-item">
@@ -872,12 +904,18 @@ function showPage(id) {
   if (id === 'home') {
     logoName.textContent = 'Your Home. Your Move.';
     logoSubs.forEach(el => el.style.display = 'none');
+    history.replaceState(null, '', window.location.pathname);
   } else {
     logoName.textContent = 'Ivan Patel';
     logoSubs.forEach(el => el.style.display = '');
+    history.replaceState(null, '', '#' + id);
   }
 }
-window.addEventListener('DOMContentLoaded', function() { showPage('home'); });
+window.addEventListener('DOMContentLoaded', function() {
+  const hash = window.location.hash.replace('#', '');
+  const validPages = ['home', 'sellers', 'buyers', 'moving'];
+  showPage(validPages.includes(hash) ? hash : 'home');
+});
 
 function handleFormSubmit(e, successId) {
   e.preventDefault();
