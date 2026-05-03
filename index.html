@@ -634,20 +634,53 @@
     <button class="back-btn" onclick="showPage('home')">← Back</button>
     <p class="eyebrow">For Buyers</p>
     <h1>Find Your Next Home</em></h1>
-    <p>Buying a home is one of the biggest decisions you'll make. Having the right agent in your corner — at no cost to you — makes the entire process smoother, faster, and a lot less stressful.</p>
+    <p>Buying a home is one of the biggest decisions you'll make. Having the right agent in your corner makes the entire process smoother, faster, and a lot less stressful.</p>
   </div>
   <div class="inner-body">
 
-    <a href="https://www.homesmart.com" target="_blank" style="display:block; text-decoration:none; margin-bottom:2.5rem;">
-      <div style="position:relative; overflow:hidden; border:0.5px solid #2a2a2a; background:var(--card); padding:2.5rem; cursor:pointer;" onmouseover="this.querySelector('.hs-arrow').style.transform='translate(4px,-4px)'; this.style.background='#1f1f1f'" onmouseout="this.querySelector('.hs-arrow').style.transform='translate(0,0)'; this.style.background='var(--card)'">
-        <p style="font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:400; color:var(--white); line-height:1.2; margin-bottom:0.5rem;">Browse Our Available<br><em style="font-style:italic; color:var(--gold);">Listings Now</em></p>
-        <p style="font-size:0.85rem; color:var(--muted); margin-bottom:1.5rem;">Search homes across Southern California — updated daily from the HomeSmart.</p>
-        <div style="display:inline-flex; align-items:center; gap:0.5rem;">
-          <span style="font-size:0.8rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold);">Search Listings</span>
-          <span class="hs-arrow" style="font-size:1rem; color:var(--gold); transition:transform 0.25s;">↗</span>
+    <div class="form-section">
+      <h3>Let's Start Your Search</h3>
+      <p class="sub">Tell me what you're looking for and I'll send you listings that match your criteria — bedrooms, bathrooms, cities, budget, and more. The more detail you share, the better I can tailor what I send you..</p>
+      <form id="buyer-form" action="https://formspree.io/f/xlgawwyj" method="POST" onsubmit="handleFormSubmit(event, 'buyer-success')">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Your Name</label>
+            <input type="text" name="name" placeholder="John Smith" required>
+          </div>
+          <div class="form-group">
+            <label>Phone</label>
+            <input type="tel" name="phone" placeholder="(714) 555-0000">
+          </div>
         </div>
-      </div>
-    </a>
+        <div class="form-group">
+          <label>Email</label>
+          <input type="email" name="email" placeholder="john@email.com" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Target Zip Code(s)</label>
+            <input type="text" name="zip" placeholder="92801, 90210...">
+          </div>
+          <div class="form-group">
+            <label>Budget Range</label>
+            <select name="budget">
+              <option value="">Select range</option>
+              <option>Under $500K</option>
+              <option>$500K – $750K</option>
+              <option>$750K – $1M</option>
+              <option>$1M – $1.5M</option>
+              <option>$1.5M+</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Anything specific you're looking for?</label>
+          <textarea name="notes" placeholder="Bedrooms, neighborhood, school district, timeline, etc."></textarea>
+        </div>
+        <button type="submit" class="btn-gold">Send</button>
+        <div class="success-msg" id="buyer-success">✓ Perfect! I'll be in touch shortly to set up your consultation.</div>
+      </form>
+    </div>
 
     <p class="section-label">What I do for buyers</p>
     <div class="steps">
@@ -688,58 +721,14 @@
       </div>
     </div>
 
-    <div class="form-section">
-      <h3>Let's Start Your Search</h3>
-      <p class="sub">Tell me a little about what you're looking for and I'll reach out to schedule a free, no-pressure consultation.</p>
-      <form id="buyer-form" action="https://formspree.io/f/xlgawwyj" method="POST" onsubmit="handleFormSubmit(event, 'buyer-success')">
-        <div class="form-row">
-          <div class="form-group">
-            <label>Your Name</label>
-            <input type="text" name="name" placeholder="John Smith" required>
-          </div>
-          <div class="form-group">
-            <label>Phone</label>
-            <input type="tel" name="phone" placeholder="(714) 555-0000">
-          </div>
+    <a href="https://www.homesmart.com" target="_blank" style="display:block; text-decoration:none; margin-bottom:2.5rem;">
+      <div style="position:relative; overflow:hidden; border:0.5px solid #2a2a2a; background:var(--card); padding:2.5rem; cursor:pointer;" onmouseover="this.querySelector('.hs-arrow').style.transform='translate(4px,-4px)'; this.style.background='#1f1f1f'" onmouseout="this.querySelector('.hs-arrow').style.transform='translate(0,0)'; this.style.background='var(--card)'">
+        <p style="font-family:'Playfair Display',serif; font-size:1.8rem; font-weight:400; color:var(--white); line-height:1.2; margin-bottom:0.5rem;">Browse Our Available<br><em style="font-style:italic; color:var(--gold);">Listings Now</em></p>
+        <p style="font-size:0.85rem; color:var(--muted); margin-bottom:1.5rem;">Search homes across Southern California — updated daily from the HomeSmart.</p>
+        <div style="display:inline-flex; align-items:center; gap:0.5rem;">
+          <span style="font-size:0.8rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--gold);">Search Listings</span>
+          <span class="hs-arrow" style="font-size:1rem; color:var(--gold); transition:transform 0.25s;">↗</span>
         </div>
-        <div class="form-group">
-          <label>Email</label>
-          <input type="email" name="email" placeholder="john@email.com" required>
-        </div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Target Zip Code(s)</label>
-            <input type="text" name="zip" placeholder="92801, 90210...">
-          </div>
-          <div class="form-group">
-            <label>Budget Range</label>
-            <select name="budget">
-              <option value="">Select range</option>
-              <option>Under $500K</option>
-              <option>$500K – $750K</option>
-              <option>$750K – $1M</option>
-              <option>$1M – $1.5M</option>
-              <option>$1.5M+</option>
-            </select>
-          </div>
-        </div>
-        <div class="form-group">
-          <label>Anything specific you're looking for?</label>
-          <textarea name="notes" placeholder="Bedrooms, neighborhood, school district, timeline, etc."></textarea>
-        </div>
-        <button type="submit" class="btn-gold">Start My Search</button>
-        <div class="success-msg" id="buyer-success">✓ Perfect! I'll be in touch shortly to set up your consultation.</div>
-      </form>
-    </div>
-
-    <a href="https://homesmart.com/" target="_blank" style="display:block; text-decoration:none; margin: 2rem 0;">
-      <div style="background:var(--card); border:0.5px solid var(--border); padding:2rem 2.5rem; display:flex; justify-content:space-between; align-items:center; transition:background 0.2s; cursor:pointer;" onmouseover="this.style.background='#1f1f1f'" onmouseout="this.style.background='var(--card)'">
-        <div>
-          <p style="font-size:0.65rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--gold); margin-bottom:0.5rem;">Our Listings</p>
-          <p style="font-family:'Playfair Display',serif; font-size:1.3rem; font-weight:400; color:var(--white); margin-bottom:0.4rem;">Prefer to browse listings first?</p>
-          <p style="font-size:0.85rem; color:var(--muted);">Search all available homes on HomeSmart</p>
-        </div>
-        <span style="font-size:1.5rem; color:var(--gold); margin-left:2rem;">↗</span>
       </div>
     </a>
 
