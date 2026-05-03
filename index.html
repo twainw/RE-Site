@@ -563,6 +563,7 @@
       <h3>Request Your Free Home Valuation</h3>
       <p class="sub">Takes 30 seconds. I'll follow up within 24 hours with a detailed CMA tailored to your neighborhood — and no sales pressure, ever.</p>
       <form id="valuation-form" action="https://formspree.io/f/xlgawwyj" method="POST" onsubmit="handleFormSubmit(event, 'valuation-success')">
+        <input type="hidden" name="page" value="Sell – Home Valuation">
         <div class="form-group">
           <label>Property Address</label>
           <input type="text" name="address" placeholder="123 Main St, Anaheim, CA 92801" required>
@@ -650,6 +651,7 @@
       <h3>Let's Start Your Search</h3>
       <p class="sub">Tell me what you're looking for and I'll send you listings that match your criteria — bedrooms, bathrooms, cities, budget, and more. The more detail you share, the better I can tailor what I send you..</p>
       <form id="buyer-form" action="https://formspree.io/f/xlgawwyj" method="POST" onsubmit="handleFormSubmit(event, 'buyer-success')">
+        <input type="hidden" name="page" value="Buy – Buyer Inquiry">
         <div class="form-row">
           <div class="form-group">
             <label>Your Name</label>
@@ -833,6 +835,7 @@
       <h3>Tell Me About Your Move</h3>
       <p class="sub">Fill this out and I'll reach out within one business day to discuss your options.</p>
       <form id="moving-form" action="https://formspree.io/f/xlgawwyj" method="POST" onsubmit="handleFormSubmit(event, 'moving-success')">
+        <input type="hidden" name="page" value="Moving – Relocation Inquiry">
         <div class="form-row">
           <div class="form-group">
             <label>Your Name</label>
