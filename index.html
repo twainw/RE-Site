@@ -1258,6 +1258,36 @@ const openHouseListings = [
             <li>HOA: $496/month. Amenities include Pool, Spa, Hot tub, Meeting room, Insurance, Ground Maintenance, and Trash. </li>
         </ul>
     `
+  },
+  {
+    id: "9650-olive",
+    status: "upcoming",
+    address: "9650 Olive Street, Temple City, CA 91780",
+    mapUrl: "https://maps.app.goo.gl/PvjEE268UMjRPs726",
+    price: "$1,100,000 ",
+    beds: 3,
+    baths: 1.75,
+    sqft: 1680,
+    openHouseDates: [
+      "July 19, 2026 • 1:00 PM - 4:00 PM"
+    ],
+    description: "Welcome to this charming move-in ready single-story home offering a spacious and functional floor plan. Step inside to a welcoming living room featuring beautiful natural hardwood floors, exposed wood beam ceilings, and a cozy fireplace. Two of the Three bedrooms are on this side of the house which include ceiling fans for added comfort. The kitchen offers ample cabinet storage, a casual dining area, and convenient access to the indoor laundry room and beautifully remodeled ¾ bathroom. Just beyond the kitchen is a versatile bonus living space that includes the third bedroom, soaring ceilings, a second fireplace, and plenty of natural light. This flexible area is perfect for a family room, home office, guest suite, or could easily be separated to accommodate multi-generational living. Step outside to enjoy the covered patio overlooking a spacious backyard—ideal for relaxing, entertaining, or creating your own outdoor retreat.",
+    listedBy: "HomeSmart Evergreen Realty | Sandra Argumedo DRE# 01343239",
+    disclaimer: "Property information is deemed reliable but not guaranteed and is provided for marketing purposes based on the time of the last open house. Availability, pricing, condition, and other details may have changed. Buyer and Buyer's Agent to do their own diligence to verify all pertinent information ",
+    photos: [
+      "9650olive/1.jpg",
+      "9650olive/2.jpg",
+      "9650olive/3.jpg",
+      "9650olive/4.jpg",
+      "9650olive/5.jpg",
+      "9650olive/6.jpg",
+      "9650olive/7.jpg",
+    ],
+    flyer: "",
+    moreInfo: `
+        <ul>
+        </ul>
+    `
   }
 ];
 
@@ -1281,7 +1311,7 @@ function ohStatsRow(l) {
 }
 
 function ohMediaHTML(l, scope, size) {
-  const photos = Array.isArray(l.photos) ? l.photos.slice(0, 5) : [];
+  const photos = Array.isArray(l.photos) ? l.photos.slice(0, 10) : [];
   const hasPhotos = photos.length > 0;
   const mediaStyle = hasPhotos ? ` style="background-image:url('${photos[0]}')"` : '';
   const mediaInner = hasPhotos ? '' : '<span>Photos coming soon</span>';
